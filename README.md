@@ -58,7 +58,7 @@ Here is the project structure folder.
 ├───layouts     # app layouts.
 ├───lib         # Utility functions.
 ├───pages       # All pages.
-├───routes     # All routes (Public, Private and a guard)
+├───routes      # Routes for the app.
 ├───types       # Put in typescript types and interfaces.
 ```
 
