@@ -8,10 +8,10 @@ const AppLayout = () => {
   return (
     <SidebarProvider>
       <Header />
-      <div className="flex items-start">
+      <div className="w-full flex items-start">
         <AppSidebar />
 
-        <main className="md:mt-12 p-5">
+        <main className="md:mt-12 p-5 w-full">
           <SidebarTrigger />
           <div className="mt-4">
             <Outlet />

@@ -1,12 +1,13 @@
 import { AppLayout } from "@/layouts";
-import { HomePage } from "@/pages";
 import { Route, Routes } from "react-router";
+import { HomePage, ProductsPage } from "@/pages";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route element={<AppLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/products" element={<ProductsPage />} />
       </Route>
     </Routes>
   );
