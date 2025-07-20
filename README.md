@@ -1,69 +1,78 @@
-# React + TypeScript + Vite
+# Ecommerz App - Fullstack Test 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Technologies used:
 
-Currently, two official plugins are available:
+[![My Skills](https://skillicons.dev/icons?i=react,ts,vite,tailwind)](https://skillicons.dev)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+Here are the steps below to run this project.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Prerequisites
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Make sure you have installed the following prerequisites before proceeding:
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/) or [PNPM](https://pnpm.io/)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation
+
+1. Clone this repository to your local machine:
+
+   `git clone https://github.com/vickyadrii/ecommerz-client.git`
+
+2. Navigate to the project directory:
+
+   `cd ecommerz-client`
+
+3. Install all the required dependencies using npm, yarn, or pnpm:
+   ```bash
+   npm install
+   # or
+   yarn
+   # or
+   pnpm install
+   ```
+
+## Usage
+
+Start the server:
+
+```bash
+   npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm run dev
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Structure Folder
+Here is the project structure folder.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```src
+├───components  # All Reusable components
+├───constants   # mocks data (dummy data).
+├───features    # Store feature components.
+├───hooks       # Custom React hooks.
+├───layouts     # app layouts.
+├───lib         # Utility functions.
+├───pages       # All pages.
+├───routes     # All routes (Public, Private and a guard)
+├───types       # Put in typescript types and interfaces.
 ```
+
+## Built With
+
+- [React](https://react.dev/) - React library for building user interface
+- [TypeScript](https://www.typescriptlang.org/) - Programming language
+- [Vite](https://vitejs.dev/guide/) - Frontend build tool
+- [Zustand](https://zustand-demo.pmnd.rs/) - State management library (coming soon)
+- [Tailwind](https://tailwindcss.com/) - Utility-first CSS framework
+- [Shadcn UI](https://ui.shadcn.com/) - Library that can be used to create dynamic components.
+
+
+
+
+
+
