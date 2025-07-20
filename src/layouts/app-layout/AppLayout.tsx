@@ -11,7 +11,7 @@ const AppLayout = () => {
       <div className="w-full flex items-start">
         <AppSidebar />
 
-        <main className="md:mt-12 p-5 w-full">
+        <main className="md:mt-12 mt-10 p-5 w-full">
           <SidebarTrigger />
           <div className="mt-4">
             <Outlet />

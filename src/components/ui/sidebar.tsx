@@ -22,6 +22,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import Logo from "../common/logo"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -256,7 +257,32 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { toggleSidebar } = useSidebar()
+  const { toggleSidebar, isMobile } = useSidebar()
+
+  if (isMobile) {
+    return (
+      <div className="fixed top-0 left-0 w-full p-3 bg-[#1b1919]">
+        <div className="flex items-center justify-between">
+          <Button
+            data-sidebar="trigger"
+            data-slot="sidebar-trigger"
+            variant="ghost"
+            size="icon"
+            className={cn("size-7", className)}
+            onClick={(event) => {
+              onClick?.(event)
+              toggleSidebar()
+            }}
+            {...props}
+          >
+            <PanelLeftIcon color="white" />
+            <span className="sr-only">Toggle Sidebar</span>
+          </Button>
+          <Logo />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <Button
