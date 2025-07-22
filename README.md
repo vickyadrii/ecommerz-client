@@ -34,6 +34,12 @@ Make sure you have installed the following prerequisites before proceeding:
    pnpm install
    ```
 
+4. Create a `.env` file in the root directory and add the following environment variables:
+
+   ```env
+   VITE_API_URL=http://localhost:3000 # Replace with your API base URL
+   ```
+
 ## Usage
 
 Start the server:
