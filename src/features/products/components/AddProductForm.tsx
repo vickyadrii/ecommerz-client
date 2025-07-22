@@ -8,6 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { useProductStore } from "@/stores/productStore";
+
+type Props = {
+  onShowModal: () => void;
+};
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -28,7 +34,7 @@ const formSchema = z.object({
   stock: z.string().min(0, "Stock must be a non-negative number"),
 });
 
-const AddProductForm = () => {
+const AddProductForm = ({ onShowModal }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,9 +46,19 @@ const AddProductForm = () => {
       description: "",
     },
   });
+  const addProduct = useProductStore((s) => s.addProduct);
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const payload = {
+      ...values,
+      price: Number(values.price),
+      stock: Number(values.stock),
+    };
+
+    await addProduct(payload);
+    form.reset();
+    toast.success("Product added successfully");
+    onShowModal();
   };
 
   return (

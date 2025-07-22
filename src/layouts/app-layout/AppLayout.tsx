@@ -3,6 +3,7 @@ import Header from "./header/Header";
 import { Outlet } from "react-router";
 import { AppSidebar } from "./sidebar/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 
 const AppLayout = () => {
   return (
@@ -18,6 +19,7 @@ const AppLayout = () => {
           </div>
         </main>
       </div>
+      <Toaster />
     </SidebarProvider>
   );
 };

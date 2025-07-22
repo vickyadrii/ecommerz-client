@@ -4,15 +4,27 @@ type Props = {
   children?: React.ReactNode;
   title?: string;
   sku?: string;
-  thumbnailUrl?: string;
+  thumbnail_url?: string;
   price?: number;
   stock?: number;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const ProductCard = ({ className, children, thumbnailUrl, title, sku, price, stock, ...props }: Props) => {
+const ProductCard = ({ className, children, thumbnail_url = "", title, sku, price, stock, ...props }: Props) => {
   return (
     <div {...props} className={cn("bg-white border rounded-md", className)}>
-      {thumbnailUrl && <img src={thumbnailUrl} alt={title || "Product Image"} className="mb-2 w-full h-60 object-cover rounded-t-md border-b" />}
+      <div className="w-full h-60 bg-gray-100 flex items-center justify-center overflow-hidden border-b rounded-t-md">
+        <img
+          src={thumbnail_url}
+          onError={(e) => {
+            const target = e.currentTarget;
+            target.onerror = null; 
+            target.src = "https://www.shutterstock.com/image-vector/default-ui-image-placeholder-wireframes-600nw-1037719192.jpg";
+          }}
+          alt={title || "Product Image"}
+          className="w-full h-full object-cover"
+          loading="lazy"
+        />
+      </div>
       <div className="p-3">
         {title && <h2 className="md:text-base text-xs font-semibold mb-1 h-12 line-clamp-2">{title}</h2>}
         {sku && <div className="text-xs text-gray-500 font-semibold">SKU: {sku}</div>}

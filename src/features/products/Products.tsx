@@ -1,95 +1,67 @@
-import { useEffect, useRef, useState } from "react";
-import { products as allProducts } from "./constants";
+import { useEffect, useRef } from "react";
+import { useProductStore } from "@/stores/productStore";
 import { ProductCard } from "@/components/common/product-card";
 import ProductHeader from "./components/ProductHeader";
 import { useSidebar } from "@/components/ui/sidebar";
-import type { Product } from "./types";
-
-const LIMIT = 8;
 
 const Products = () => {
   const { open } = useSidebar();
+  const { products, fetchProducts, loading, hasMore, error } = useProductStore();
 
-  const [visibleProducts, setVisibleProducts] = useState<Product[]>([]);
-  const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+  const hasFetchedInitially = useRef(false);
 
+  // Fetch initial products only once
   useEffect(() => {
-    const loadData = () => {
-      const start = (page - 1) * LIMIT;
-      const end = start + LIMIT;
+    if (!hasFetchedInitially.current) {
+      fetchProducts();
+      hasFetchedInitially.current = true;
+    }
+  }, [fetchProducts]);
 
-      setLoading(true);
-      const timeout = setTimeout(() => {
-        const nextProducts = allProducts.slice(start, end);
-        setVisibleProducts((prev) => [...prev, ...nextProducts]);
-        setLoading(false);
-      }, 1000);
-
-      return () => clearTimeout(timeout);
-    };
-
-    loadData();
-  }, [page]);
-
+  // Infinite Scroll using IntersectionObserver
   useEffect(() => {
     if (loading) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !loading) {
-          const totalLoaded = page * LIMIT;
-          if (totalLoaded < allProducts.length) {
-            setPage((prev) => prev + 1);
-          }
+        const entry = entries[0];
+        if (entry.isIntersecting && hasMore) {
+          fetchProducts();
         }
       },
-      {
-        rootMargin: "100px",
-      }
+      { rootMargin: "100px" }
     );
 
-    const currentRef = loadMoreRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
+    const current = loadMoreRef.current;
+    if (current) observer.observe(current);
 
     return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
+      if (current) observer.unobserve(current);
     };
-  }, [page, loading]);
+  }, [loading, hasMore, fetchProducts]);
+
+  console.log("Products:", products);
 
   return (
     <div className="space-y-4">
       <ProductHeader />
 
-      <div
-        className={`grid grid-cols-1 sm:grid-cols-2 ${
-          open ? "lg:grid-cols-4 xl:grid-cols-4" : "lg:grid-cols-5 xl:grid-cols-4"
-        } gap-4 mt-4 place-items-center`}
-      >
-        {visibleProducts.map((product, index) => (
-          <ProductCard
-            key={index}
-            thumbnailUrl={product.thumbnail_url}
-            title={product.title}
-            sku={product.sku}
-            price={product.price}
-            stock={product.stock}
-          />
+      <div className={`grid grid-cols-1 sm:grid-cols-2 ${open ? "lg:grid-cols-4" : "lg:grid-cols-5"} gap-4 mt-4 place-items-center`}>
+        {products.map((product, index) => (
+          <ProductCard key={index} {...product} />
         ))}
       </div>
 
       <div ref={loadMoreRef} className="h-10 flex justify-center items-center">
         {loading ? (
           <span className="text-sm text-gray-400">Loading more...</span>
-        ) : visibleProducts.length >= allProducts.length ? (
+        ) : !hasMore ? (
           <span className="text-sm text-gray-400">No more products.</span>
         ) : null}
       </div>
+
+      {error && <div className="text-sm text-red-500 text-center mt-4">{error}</div>}
     </div>
   );
 };
