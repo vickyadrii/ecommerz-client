@@ -78,7 +78,14 @@ Here is the project structure folder.
 - [Shadcn UI](https://ui.shadcn.com/) - Library that can be used to create dynamic components.
 
 
+## Preview
+<img width="1395" height="933" alt="Screenshot 2025-07-23 at 10 35 18" src="https://github.com/user-attachments/assets/388bb96a-b919-4aa4-8d37-eb0e7dcb3cf3" />
+</br>
+</br>
 
-
+<img width="1382" height="931" alt="Screenshot 2025-07-23 at 10 34 40" src="https://github.com/user-attachments/assets/d5a190bb-779f-42a5-a192-5fb22867eee4" />
+</br>
+</br>
+<img width="1398" height="936" alt="Screenshot 2025-07-23 at 10 37 49" src="https://github.com/user-attachments/assets/e4cbc447-15ce-478c-80ca-a7c17146c17e" />
 
 
