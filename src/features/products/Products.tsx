@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useProductStore } from "@/stores/productStore";
-import { ProductCard } from "@/components/common/product-card";
+import { ProductCard } from "./components/ProductCard";
 import ProductHeader from "./components/ProductHeader";
 import { useSidebar } from "@/components/ui/sidebar";
 
@@ -11,7 +11,6 @@ const Products = () => {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   const hasFetchedInitially = useRef(false);
 
-  // Fetch initial products only once
   useEffect(() => {
     if (!hasFetchedInitially.current) {
       fetchProducts();
@@ -19,7 +18,6 @@ const Products = () => {
     }
   }, [fetchProducts]);
 
-  // Infinite Scroll using IntersectionObserver
   useEffect(() => {
     if (loading) return;
 
@@ -54,11 +52,7 @@ const Products = () => {
       </div>
 
       <div ref={loadMoreRef} className="h-10 flex justify-center items-center">
-        {loading ? (
-          <span className="text-sm text-gray-400">Loading more...</span>
-        ) : !hasMore ? (
-          <span className="text-sm text-gray-400">No more products.</span>
-        ) : null}
+        {loading ? <span className="text-sm text-gray-400">Loading more...</span> : !hasMore ? <span className="text-sm text-gray-400">No more products.</span> : null}
       </div>
 
       {error && <div className="text-sm text-red-500 text-center mt-4">{error}</div>}

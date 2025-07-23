@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { PencilIcon } from "lucide-react";
 
 type Props = {
   children?: React.ReactNode;
@@ -12,7 +14,7 @@ type Props = {
 const ProductCard = ({ className, children, thumbnail_url = "", title, sku, price, stock, ...props }: Props) => {
   return (
     <div {...props} className={cn("bg-white border rounded-md", className)}>
-      <div className="w-full h-60 bg-gray-100 flex items-center justify-center overflow-hidden border-b rounded-t-md">
+      <div className="xl:w-60 w-full h-60 bg-gray-100 flex items-center justify-center overflow-hidden border-b rounded-t-md">
         <img
           src={thumbnail_url}
           onError={(e) => {
@@ -28,11 +30,14 @@ const ProductCard = ({ className, children, thumbnail_url = "", title, sku, pric
       <div className="p-3">
         {title && <h2 className="md:text-base text-xs font-semibold mb-1 h-12 line-clamp-2">{title}</h2>}
         {sku && <div className="text-xs text-gray-500 font-semibold">SKU: {sku}</div>}
+        {!!stock && <div className={`text-xs font-semibold ${stock > 0 ? "text-sky-600" : "text-rose-600"}`}>{stock > 0 ? `Stok: ${stock}` : "Stok habis"}</div>}
         {children}
       </div>
       <div className="border-t px-4 py-2 flex items-center justify-between">
-        {!!price && <div className="text-base font-bold text-gray-800">Rp{price.toLocaleString()}</div>}
-        {!!stock && <div className={`text-xs font-semibold ${stock > 0 ? "text-sky-600" : "text-rose-600"}`}>{stock > 0 ? `Stok: ${stock}` : "Stok habis"}</div>}
+        {!!price && <div className="text-base font-bold text-gray-800">Rp. {price.toLocaleString()}</div>}
+        <Button size='icon' variant='ghost'>
+          <PencilIcon />
+        </Button>
       </div>
     </div>
   );
