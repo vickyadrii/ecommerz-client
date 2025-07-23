@@ -8,11 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "sonner";
-import { useProductStore } from "@/stores/productStore";
+import type { Product } from "../types";
+
+
 
 type Props = {
   onShowModal: () => void;
+  defaultValues?: Partial<Product>;
+  onSubmit: (values: Product) => Promise<void>;
 };
 
 const formSchema = z.object({
@@ -31,39 +34,38 @@ const formSchema = z.object({
     { message: "Thumbnail URL must be a valid URL" }
   ),
   price: z.string().min(0, "Price must be a positive number"),
-  stock: z.string().min(0, "Stock must be a non-negative number"),
+  stock: z.number().min(0, "Stock must be a non-negative number"),
 });
 
-const AddProductForm = ({ onShowModal }: Props) => {
+const ProductForm = ({ onShowModal, defaultValues, onSubmit }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
       sku: "",
       thumbnail_url: "",
-      price: "0",
-      stock: "0",
+      price: "",
+      stock: 0,
       description: "",
+      ...defaultValues
     },
   });
-  const addProduct = useProductStore((s) => s.addProduct);
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    const payload = {
-      ...values,
-      price: Number(values.price),
-      stock: Number(values.stock),
-    };
+  const handleSubmit = async (values: Product) => {
+    console.log("Submitting form with values:", values);
+  await onSubmit({
+    ...values,
+    price: values.price,
+    stock: values.stock,
+  });
 
-    await addProduct(payload);
-    form.reset();
-    toast.success("Product added successfully");
-    onShowModal();
-  };
+  form.reset();
+  onShowModal();
+};
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
         <FormField
           control={form.control}
           name="title"
@@ -141,7 +143,7 @@ const AddProductForm = ({ onShowModal }: Props) => {
             <FormItem>
               <FormLabel>Stock</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="25" {...field} />
+                <Input type="number" placeholder="25" {...field} onChange={(e) => field.onChange(e.target.valueAsNumber)} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -154,4 +156,4 @@ const AddProductForm = ({ onShowModal }: Props) => {
   );
 };
 
-export default AddProductForm;
+export default ProductForm;

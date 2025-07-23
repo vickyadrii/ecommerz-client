@@ -11,6 +11,8 @@ type ProductStore = {
   fetchProducts: () => Promise<void>;
   reset: () => void;
   addProduct: (payload: Omit<Product, "id">) => Promise<void>;
+  editProduct: (sku: string, payload: Omit<Product, "id" | "sku">) => Promise<void>;
+  deleteProduct: (sku: string) => Promise<void>;
 };
 
 const LIMIT = 8;
@@ -45,14 +47,32 @@ export const useProductStore = create<ProductStore>((set, get) => ({
       set({ loading: false });
     }
   },
-  addProduct: async (payload: Product) => {
+  addProduct: async (payload) => {
     try {
       await api.post("/products", payload);
-      
-      useProductStore.getState().fetchProducts();
-      
+      set({ products: [], page: 1 });
+      await get().fetchProducts();
     } catch (e) {
       console.error("Failed to add product", e);
+    }
+  },
+  editProduct: async (sku, payload) => {
+    try {
+      await api.put(`/products/${sku}`, payload);
+      set({ products: [], page: 1 });
+      await get().fetchProducts();
+    } catch (e) {
+      console.error(`Failed to edit product with SKU ${sku}`, e);
+    }
+  },
+  deleteProduct: async (sku: string) => {
+    try {
+      await api.delete(`/products/${sku}`);
+      set((state) => ({
+        products: state.products.filter((p) => p.sku !== sku),
+      }));
+    } catch (e) {
+      console.error("Failed to delete product", e);
     }
   },
 
