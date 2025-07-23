@@ -23,6 +23,11 @@ const DeleteProduct = ({ product, onShowModalEdit }: Props) => {
     onShowModalEdit();
   };
 
+  const handleClose = () => {
+    setOpen(!open);
+    onShowModalEdit();
+  }
+
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -34,7 +39,7 @@ const DeleteProduct = ({ product, onShowModalEdit }: Props) => {
             </DialogDescription>
           </DialogHeader>
           <div className="flex justify-end gap-2 mt-4">
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
             <Button variant="destructive" onClick={handleDelete}>
